@@ -32,3 +32,27 @@ jobs:
             docker stop deepfakevision-app || true
             docker rm deepfakevision-app || true
             docker run -d -p 5000:5000 --name deepfakevision-app deepfakevision
+
+
+
+-------------------------------------------
+ÉTAPE 3 – Déploiement EC2 (10 minutes – la plus importante pour le prof)
+
+Va sur AWS Console → EC2 → Launch Instance
+Nom : DeepFakeVision-Deploy
+AMI : Amazon Linux 2023 (gratuite)
+Type : t2.micro ou t3.micro (free tier)
+Key pair : crée ou utilise une clé .pem
+Security Group → Ajoute une règle : TCP 5000 depuis 0.0.0.0/0
+Launch → Connecte-toi en SSH
+
+Dans le terminal EC2 :
+Bashsudo yum update -y
+sudo yum install docker git -y
+sudo service docker start
+sudo usermod -aG docker ec2-user
+exit   # puis reconnecte-toi
+git clone https://github.com/ZouhairSA/DeepFakeVision-AWS.git
+cd DeepFakeVision-AWS
+docker build -t deepfakevision .
+docker run -d -p 5000:5000 deepfakevision
