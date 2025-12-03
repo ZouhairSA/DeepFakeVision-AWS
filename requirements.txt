@@ -1,7 +1,13 @@
-ultralytics==8.3.234
-onnxruntime-gpu
 flask
 gunicorn
+onnxruntime
 numpy
 opencv-python-headless
 pillow
+# ultralytics==8.3.234
+# onnxruntime-gpu
+# flask
+# gunicorn
+# numpy
+# opencv-python-headless
+# pillow

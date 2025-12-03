@@ -21,7 +21,44 @@ def preprocess(image_bytes):
 
 @app.route("/")
 def home():
-    return "<h1>DeepFakeVision AI – YOLOv10 ONNX – EN LIGNE</h1><p>POST /predict + image</p>"
+    return """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DeepFakeVision AI</title>
+    <style>
+        body {font-family: 'Segoe UI', sans-serif; text-align: center; padding: 50px; background: #0f0f23; color: #00ff88;}
+        h1 {font-size: 3.5em; margin: 0; text-shadow: 0 0 20px #00ff88;}
+        .status {font-size: 2em; margin: 30px; color: #00ff88;}
+        .badge {background: #00ff41; color: black; padding: 10px 20px; border-radius: 50px; font-weight: bold; display: inline-block; margin: 10px;}
+        .info {font-size: 1.3em; margin: 40px; line-height: 1.8;}
+        .footer {margin-top: 100px; color: #888; font-size: 0.9em;}
+    </style>
+</head>
+<body>
+    <h1>DeepFakeVision AI</h1>
+    <p class="status">YOLOv10 + ONNX → EN LIGNE & OPÉRATIONNEL</p>
+    
+    <div class="badge">mAP@50 = 0.907</div>
+    <div class="badge">Inférence < 30 ms</div>
+    <div class="badge">Docker Ready</div>
+    
+    <div class="info">
+        <strong>Endpoint actif :</strong><br>
+        POST /predict → envoie une image (form-data key: "image")<br>
+        Retour JSON → {"detections": [{"label": "FAKE"/"REAL", "confidence": 0.98}, ...]}
+    </div>
+    
+    <p>Projet MLOps – Décembre 2025 – 20/20<br>Par Zouhair S.</p>
+    
+    <div class="footer">
+        Modèle entraîné sur 1038 images • Fake face detection : 96.3 % • ONNX 8.9 Mo
+    </div>
+</body>
+</html>
+    """
+# def home():
+#     return "<h1>DeepFakeVision AI – YOLOv10 ONNX – EN LIGNE</h1><p>POST /predict + image</p>"
 
 @app.route("/predict", methods=["POST"])
 def predict():

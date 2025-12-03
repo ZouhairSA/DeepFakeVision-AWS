@@ -1,0 +1,34 @@
+
+### 2. Crée le dossier screenshots et mets-y :
+- Capture de ton `curl http://localhost:5000` qui marche
+- Capture du résultat d’entraînement YOLOv10 (results.png)
+- Capture de `docker ps`
+- Capture de ton repo GitHub
+
+### 3. (Bonus 22/20) GitHub Actions + EC2 en 1 clic  
+Crée le fichier `.github/workflows/deploy.yml` avec ça :
+
+```yaml
+name: Deploy to AWS EC2
+on:
+  push:
+    branches: [ main ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd DeepFakeVision-AWS || git clone https://github.com/ZouhairSA/DeepFakeVision-AWS.git && cd DeepFakeVision-AWS
+            git pull
+            docker build -t deepfakevision .
+            docker stop deepfakevision-app || true
+            docker rm deepfakevision-app || true
+            docker run -d -p 5000:5000 --name deepfakevision-app deepfakevision
